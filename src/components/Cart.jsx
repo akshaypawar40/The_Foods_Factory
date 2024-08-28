@@ -1,10 +1,15 @@
 import React, { useState } from "react";
+import { Suspense, lazy } from "react";
 import { IoMdClose } from "react-icons/io";
-import ItemCard from "./ItemCard";
 import { FaShoppingCart } from "react-icons/fa";
+import { useSelector } from "react-redux";
+const ItemCard = lazy(() => import('./ItemCard'));
+
 
 const Cart = () => {
-  const [activeCart, setActiveCart] = useState(false);
+  const [activeCart, setActiveCart] = useState(true);
+  const cartItems= useSelector((state)=>state.cart.cart);
+  const totalQty= cartItems.reduce((totalQty,item)=> totalQty+item.qty,0)
   return (
     <>
       <div
@@ -16,10 +21,21 @@ const Cart = () => {
           <span className="text-xl text-gray-800 font-bold">My Orders</span>
           <IoMdClose
             onClick={() => setActiveCart(!activeCart)}
-            className="border border-gray-600 text-gray-600 font-bold p-1 text-xl rounded-md hover:text-red-300 hover:border-red-300 cursor-pointer"
+            className="border border-gray-600 text-gray-600 font-bold p-1 text-xl rounded-md hover:text-red-600 hover:border-red-300 cursor-pointer"
           />
         </div>
-        <ItemCard />
+        {cartItems.length > 0 ? cartItems.map((food)=>(
+          <Suspense fallback={<div>Loading...</div>}>
+            <ItemCard 
+            key={food.id}
+            name={food.name}
+            price={food.price}
+            id={food.id}
+            img={food.img}
+            qty={food.qty}
+            />
+            </Suspense>
+        )): <h2 className="text-xl text-gray-800 font-bold text-center">Your Cart is Empty</h2>}
         <div className="absolute bottom-0">
           <h3 className="font-semibold text-gray-800">Items:</h3>
           <h3 className="font-semibold text-gray-800">Total Amount:</h3>
@@ -31,7 +47,7 @@ const Cart = () => {
       </div>
       <FaShoppingCart
         onClick={() => setActiveCart(!activeCart)}
-        className="rounded-full bg-white shadow-md text-5xl p-3 fixed bottom-4 right-4 "
+        className={`rounded-full text-green-600 bg-white shadow-md text-5xl p-3 fixed bottom-4 right-4 ${totalQty >0 && "animate-bounce delay-700 transition-all"} `}
       />
     </>
   );
