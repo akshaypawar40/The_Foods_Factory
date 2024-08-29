@@ -3,13 +3,20 @@ import { AiOutlinePlus, AiOutlineMinus } from "react-icons/ai";
 import { MdDelete } from "react-icons/md";
 import { removeFromCart,decrementQty,incrementQty } from "../redux/slices/CartSlice";
 import { useDispatch } from "react-redux";
+import toast from "react-hot-toast";
+
 
 const ItemCard = ({id,img,price,name,qty}) => {
   const dispatch = useDispatch();
   // console.log(asd.id , )
   return (
     <div className="flex gap-2 shadow-md rounded-lg p-2 mb-3 overflow-hidden truncate" >
-      <MdDelete className="absolute right-7 text-gray-600 cursor-pointer" onClick={()=>dispatch(removeFromCart({id}))} />
+      <MdDelete 
+      className="absolute right-7 text-gray-600 cursor-pointer" onClick={()=>{dispatch(removeFromCart({id}));
+      toast(`${name} Removed! `,{
+        icon:"👋🏻"
+      })
+      }} />
       <img
         src={img}
         alt="itmimg"
