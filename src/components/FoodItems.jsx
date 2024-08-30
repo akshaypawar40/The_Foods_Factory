@@ -17,7 +17,14 @@ const FoodItems = () => {
       {FoodData.filter((food)=>{
         if(category === "All"){
           return food.name.toLowerCase().includes(search.toLowerCase());
-        }else{
+        }
+        // else if (category===food.category &&  food.name.toLowerCase().includes(!search.toLowerCase()))
+        // {
+        //   return (
+        //     <p>No Such Dishes Found</p>
+        //   )
+        // }
+        else{
           return(
            category === food.category && food.name.toLowerCase().includes(search.toLowerCase()));
         }

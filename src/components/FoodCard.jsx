@@ -10,7 +10,7 @@ const FoodCard = ({ img, desc, rating, name, id, price,handleToast }) => {
       <img
         src={img}
         alt="foodimg"
-        className="w-auto h-[130px] hover:scale-110 cursor-grab transition-all duration-500 ease-in-out"
+        className="w-auto h-[130px] hover:scale-110 cursor-grab transition-all duration-500 ease-in-out object-fit"
       />
       <div className=" text-sm flex justify-between">
         <h2 className="overflow-hidden truncate">{name}</h2>
