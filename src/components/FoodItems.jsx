@@ -1,8 +1,8 @@
-import React from "react";
-import FoodCard from "./FoodCard";
+import React,{lazy,Suspense} from "react";
 import FoodData from "../data/FoodData";
 import toast, {Toaster} from "react-hot-toast";
 import { useSelector } from "react-redux";
+const FoodCard= lazy(()=> import("./FoodCard"));
 
 const FoodItems = () => {
   const handleToast = (e)=>toast.success(` Added  ${e} to cart`)
@@ -29,6 +29,7 @@ const FoodItems = () => {
            category === food.category && food.name.toLowerCase().includes(search.toLowerCase()));
         }
       }).map((food)=>(
+        <Suspense fallback={"...Loading"}>
         <FoodCard
         key={food.id}
         id={food.id}
@@ -39,6 +40,7 @@ const FoodItems = () => {
         img={food.img}
         handleToast={handleToast}
         />
+        </Suspense>
       ))}
     </div>
       </>
